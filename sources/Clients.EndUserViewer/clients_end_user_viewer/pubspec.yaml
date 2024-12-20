@@ -1,5 +1,5 @@
-name: clients_end_user_viewer
-description: "A new Flutter project."
+name: nyala
+description: "A http endpoint tester"
 publish_to: 'none'
 version: 0.1.0
 
