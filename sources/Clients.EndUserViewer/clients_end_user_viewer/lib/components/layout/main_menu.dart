@@ -36,7 +36,7 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
       case 1:
               Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const HttpEndpointsTester()),
+          MaterialPageRoute(builder: (context) => HttpEndpointsTester()),
         );
         break;
     }
