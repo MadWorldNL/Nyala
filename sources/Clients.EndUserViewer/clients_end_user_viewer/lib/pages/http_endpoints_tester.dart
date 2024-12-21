@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:nyala/components/buttons/http_dropdown.dart';
-import 'package:nyala/components/buttons/url_input.dart';
+import 'package:nyala/components/buttons/http_send_request_button.dart';
+import 'package:nyala/components/inputs/url_input.dart';
 import 'package:nyala/components/layout/main_menu.dart';
+
+final httpMethodesKey = GlobalKey<HttpMethodesDropdownState>();
+final urlKey = GlobalKey<UrlInputState>();
 
 class HttpEndpointsTester extends StatelessWidget {
   const HttpEndpointsTester({super.key});
@@ -16,10 +20,7 @@ class HttpEndpointsTester extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HttpMethodesDropdown(), 
-            UrlInput()
-            ],
+          children: [HttpMethodesDropdown(key: httpMethodesKey), UrlInput(key: urlKey), SendRequestButton(httpMethodesKey: httpMethodesKey, urlKey: urlKey)],
         ),
       ),
     ));

@@ -8,6 +8,7 @@ class UrlInput extends StatefulWidget {
 }
 
 class UrlInputState extends State<UrlInput> {
+  final TextEditingController controller = TextEditingController();
   String? url;
 
   @override
@@ -15,11 +16,12 @@ class UrlInputState extends State<UrlInput> {
     return SizedBox(
       width: 500,
       child: TextField(
-      decoration: InputDecoration(
-        labelText: 'Url',
-        hintText: 'Enter URL or past text', 
-        border: OutlineInputBorder(),
-      ),
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: 'Url',
+          hintText: 'Enter URL or past text', 
+          border: OutlineInputBorder(),
+        ),
     ));
   }
 }
