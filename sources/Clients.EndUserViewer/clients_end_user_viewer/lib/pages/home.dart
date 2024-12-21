@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nyala/components/main_menu.dart';
+import 'package:nyala/components/layout/main_menu.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
