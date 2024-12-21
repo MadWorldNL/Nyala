@@ -13,15 +13,16 @@ class UrlInputState extends State<UrlInput> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 500,
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: 'Url',
-          hintText: 'Enter URL or past text', 
-          border: OutlineInputBorder(),
-        ),
-    ));
+    return Expanded(
+        child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: controller,
+              decoration: InputDecoration(
+                labelText: 'Url',
+                hintText: 'Enter URL or past text',
+                border: OutlineInputBorder(),
+              ),
+            )));
   }
 }

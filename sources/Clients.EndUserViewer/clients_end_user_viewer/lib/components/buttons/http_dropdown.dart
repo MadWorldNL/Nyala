@@ -13,22 +13,25 @@ class HttpMethodesDropdownState extends State<HttpMethodesDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<HttpMethodes>(
-      hint: Text("Select an option"),
-      alignment: Alignment.center,
-      value: selectedType, 
-      items:
-          HttpMethodes.values.take(HttpMethodes.values.length).map((httpType) {
-        return DropdownMenuItem<HttpMethodes>(
-          value: httpType,
-          child: Text(httpType.name),
-        );
-      }).toList(),
-      onChanged: (value) {
-        setState(() {
-          selectedType = value; // Update the selected value
-        });
-      },
-    );
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownButton<HttpMethodes>(
+          hint: Text("Select an option"),
+          alignment: Alignment.center,
+          value: selectedType,
+          items: HttpMethodes.values
+              .take(HttpMethodes.values.length)
+              .map((httpType) {
+            return DropdownMenuItem<HttpMethodes>(
+              value: httpType,
+              child: Text(httpType.name),
+            );
+          }).toList(),
+          onChanged: (value) {
+            setState(() {
+              selectedType = value; // Update the selected value
+            });
+          },
+        ));
   }
 }
