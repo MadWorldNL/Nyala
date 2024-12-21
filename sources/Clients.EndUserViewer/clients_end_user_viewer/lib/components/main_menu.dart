@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nyala/pages/contact.dart';
 import 'package:nyala/pages/home.dart';
+import 'package:nyala/pages/http_endpoints_tester.dart';
 
 class MainMenu extends StatelessWidget implements PreferredSizeWidget {
   final String contextName;
@@ -19,7 +19,7 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
           icon: Icon(Icons.menu),
           itemBuilder: (context) => [
             PopupMenuItem<int>(value: 0, child: Text('Home')),
-            PopupMenuItem<int>(value: 1, child: Text('Contact')),
+            PopupMenuItem<int>(value: 1, child: Text('Http')),
           ],
         ),
         title: Text(contextName));
@@ -34,9 +34,9 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
         );
         break;
       case 1:
-        Navigator.push(
+              Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ContactPage()),
+          MaterialPageRoute(builder: (context) => const HttpEndpointsTester()),
         );
         break;
     }

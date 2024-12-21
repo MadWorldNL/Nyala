@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nyala/components/main_menu.dart';
 
-class ContactPage extends StatelessWidget {
-  const ContactPage({super.key});
+class HttpEndpointsTester extends StatelessWidget {
+  const HttpEndpointsTester({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: MainMenu(contextName: 'Contact Page'),
+        appBar: MainMenu(contextName: 'Http Page'),
         body: Center(
-          child: Text('Best regards!'),
+          child: Text('Hello World!'),
         )
       ),
     );
