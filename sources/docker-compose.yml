@@ -1,0 +1,10 @@
+name: nyala
+services:
+  end-user-viewer:
+    image: ghcr.io/madworldnl/nyala-end-user-viewer:latest
+    container_name: end-user-viewer
+    build:
+      context: Clients.EndUserViewer/clients_end_user_viewer
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
