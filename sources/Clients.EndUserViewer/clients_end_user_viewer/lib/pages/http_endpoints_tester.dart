@@ -15,27 +15,53 @@ class HttpEndpointsTester extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      appBar: MainMenu(contextName: 'Http Page'),
-      body: Padding(
-        padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: [
-                HttpMethodesDropdown(key: states.httpMethodesKey),
-                UrlInput(key: states.urlKey),
-                SendRequestButton(httpFormStates: states)
-              ]),
-              Row(children: [
-                HttpBodyInput(key: states.httpBodyKey),
-              ]),
-              Row(children: [
-                HttpResponseInput(key: states.httpResponseKey),
-              ])
-            ]),
-      ),
-    ));
+        home: DefaultTabController(
+            initialIndex: 3,
+            length: 5,
+            child: Scaffold(
+              appBar: MainMenu(contextName: 'Http Page'),
+              body: Padding(
+                padding:
+                    EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 20),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        HttpMethodesDropdown(key: states.httpMethodesKey),
+                        UrlInput(key: states.urlKey),
+                        SendRequestButton(httpFormStates: states)
+                      ]),
+                      SizedBox(height: 20), // Add some spacing
+                      TabBar(
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.grey,
+                        tabs: [
+                          Tab(text: "Params"),
+                          Tab(text: "Authorizantion"),
+                          Tab(text: "Headers"),
+                          Tab(text: "Body"),
+                          Tab(text: "Settings"),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            Text('Params'),
+                            Text("Authorizantion"),
+                            Text('Headers'),
+                            HttpBodyInput(key: states.httpBodyKey),
+                            Text('Headers'),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          HttpResponseInput(key: states.httpResponseKey),
+                        ],
+                      )
+                    ]),
+              ),
+            )));
   }
 }

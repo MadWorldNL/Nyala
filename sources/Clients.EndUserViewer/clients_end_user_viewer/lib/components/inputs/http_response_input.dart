@@ -21,7 +21,7 @@ class HttpResponseInputState extends State<HttpResponseInput> {
               controller: controller,
               scrollController: _scrollController,
               keyboardType: TextInputType.multiline,
-              minLines: 1,
+              minLines: 10,
               maxLines: 10,
               decoration: InputDecoration(
                 labelText: 'Response',
