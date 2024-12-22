@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:nyala/domain/https/http_methodes.dart';
+import 'package:nyala/domain/https/http_request.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
-import 'package:nyala/domain/https/http_request.dart';
 
 class HttpRequestSender {
   Future<String> sendRequest(HttpRequest request) async {
@@ -36,10 +38,22 @@ class HttpRequestSender {
         break;
     }
 
-    if (response == null) {
+    if (response == null) 
+    {
       return '';
     }
 
+    if (response.headers.containsKey('content-type') && response.headers['content-type']!.contains('application/json'))
+    {
+      return formatJsonBody(response.body);
+    }
+
     return response.body;
+  }
+
+  String formatJsonBody(String body) {
+    var json = jsonDecode(body);
+    JsonEncoder encoder = JsonEncoder.withIndent('  ');
+    return encoder.convert(json);
   }
 }

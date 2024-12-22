@@ -51,7 +51,7 @@ class HttpEndpointsTester extends StatelessWidget {
                             Text("Authorizantion"),
                             Text('Headers'),
                             HttpBodyInput(key: states.httpBodyKey),
-                            Text('Headers'),
+                            Text('Settings'),
                           ],
                         ),
                       ),
