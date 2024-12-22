@@ -31,11 +31,8 @@ class SendRequestButton extends StatelessWidget {
   }
 
   Future<void> sendRequest() async {
-    var selectedMethode =
-        httpFormStates.httpMethodesKey.currentState!.selectedType!;
-    var url = httpFormStates.urlKey.currentState!.controller.text;
-
-    var response = await httpRequestSender.sendRequest(selectedMethode, url);
+    var request = httpFormStates.createRequest();
+    var response = await httpRequestSender.sendRequest(request);
 
     httpFormStates.httpResponseKey.currentState!.controller.text = response;
   }
