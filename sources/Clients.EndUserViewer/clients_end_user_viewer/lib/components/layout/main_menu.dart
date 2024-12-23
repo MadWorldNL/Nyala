@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyala/pages/grpc_endpoints_tester.dart';
 import 'package:nyala/pages/home.dart';
 import 'package:nyala/pages/http_endpoints_tester.dart';
 
@@ -20,6 +21,7 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
           itemBuilder: (context) => [
             PopupMenuItem<int>(value: 0, child: Text('Home')),
             PopupMenuItem<int>(value: 1, child: Text('Http')),
+            PopupMenuItem<int>(value: 1, child: Text('Grpc')),
           ],
         ),
         title: Text(contextName));
@@ -34,11 +36,16 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
         );
         break;
       case 1:
-              Navigator.push(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => HttpEndpointsTester()),
         );
         break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const GrpcEndpointsTester()),
+        );
     }
   }
 }
