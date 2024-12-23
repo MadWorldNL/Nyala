@@ -2,6 +2,10 @@ enum HttpBodyTypes {
   none,
   formData,
   xWwwFormUrlencoded,
-  raw,
+  text,
+  javascript,
+  json,
+  html,
+  xml,
   binary
 }

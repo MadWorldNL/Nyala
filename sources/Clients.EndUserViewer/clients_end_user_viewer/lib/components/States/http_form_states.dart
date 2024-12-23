@@ -3,7 +3,6 @@ import 'package:nyala/components/buttons/http_dropdown.dart';
 import 'package:nyala/components/inputs/http_body_input.dart';
 import 'package:nyala/components/inputs/http_response_input.dart';
 import 'package:nyala/components/inputs/url_input.dart';
-import 'package:nyala/domain/https/http_body_raw_types.dart';
 import 'package:nyala/domain/https/http_body_types.dart';
 import 'package:nyala/domain/https/http_request.dart';
 
@@ -22,7 +21,6 @@ class HttpFormStates {
         url: url,
         methode: selectedMethode,
         body: body,
-        bodyType: HttpBodyTypes.raw,
-        rawType: HttpBodyRawTypes.json);
+        bodyType: HttpBodyTypes.json);
   }
 }

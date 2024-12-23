@@ -1,11 +1,9 @@
-import 'dart:convert';
-
-import 'package:nyala/domain/https/http_body_types.dart';
-import 'package:nyala/domain/https/http_body_raw_types.dart';
 import 'package:nyala/domain/https/http_methodes.dart';
 import 'package:nyala/domain/https/http_request.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:nyala/functions/formatters/formatter_factory.dart';
+import 'package:nyala/functions/https/http_content_type_converter.dart';
 
 class HttpRequestSender {
   Future<String> sendRequest(HttpRequest request) async {
@@ -44,7 +42,7 @@ class HttpRequestSender {
   Map<String, String> createHeaders(HttpRequest request) {
     var headers = <String, String>{};
 
-    var contentType = getContentType(request);
+    var contentType = HttpContentTypeConverter.getContentType(request.bodyType);
 
     if (contentType.isNotEmpty) {
       headers['content-type'] = contentType;
@@ -53,58 +51,23 @@ class HttpRequestSender {
     return headers;
   }
 
-  String getContentType(HttpRequest request) {
-    switch (request.bodyType) {
-      case HttpBodyTypes.none:
-        return '';
-      case HttpBodyTypes.raw:
-        return getRawContentType(request);
-      case HttpBodyTypes.formData:
-        return 'multipart/form-data';
-      case HttpBodyTypes.xWwwFormUrlencoded:
-        return 'application/x-www-form-urlencoded';
-      case HttpBodyTypes.binary:
-        return 'application/octet-stream';
-    }
-  }
-
-  String getRawContentType(HttpRequest request) {
-    switch (request.rawType) {
-      case HttpBodyRawTypes.none:
-        return '';
-      case HttpBodyRawTypes.json:
-        return 'application/json';
-      case HttpBodyRawTypes.xml:
-        return 'application/xml';
-      case HttpBodyRawTypes.html:
-        return 'text/html';
-      case HttpBodyRawTypes.javascript:
-        return 'application/javascript';
-      case HttpBodyRawTypes.text:
-        return 'text/plain';
-    }
-  }
-
   String formatBody(Response? response) {
     if (response == null) {
       return '';
     }
 
-    if (isJson(response)) {
-      return formatJsonBody(response.body);
+    var contentType = getContentType(response);
+    var bodyType = HttpContentTypeConverter.getBodyType(contentType);
+    var formatter = FormatterFactory.getFormatter(bodyType);
+    return formatter.format(response.body);
+  }
+
+  String getContentType(Response response)
+  {
+    if (response.headers.containsKey('content-type')) {
+      return response.headers['content-type']!;
     }
 
-    return response.body;
-  }
-
-  bool isJson(Response response) {
-    return response.headers.containsKey('content-type') &&
-        response.headers['content-type']!.contains('application/json');
-  }
-
-  String formatJsonBody(String body) {
-    var json = jsonDecode(body);
-    JsonEncoder encoder = JsonEncoder.withIndent('  ');
-    return encoder.convert(json);
+    return '';
   }
 }
