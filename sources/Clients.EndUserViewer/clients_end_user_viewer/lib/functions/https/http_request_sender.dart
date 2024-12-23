@@ -40,11 +40,10 @@ class HttpRequestSender {
   }
 
   Map<String, String> createHeaders(HttpRequest request) {
-    var headers = <String, String>{};
-
+    var headers = request.headers;
     var contentType = HttpContentTypeConverter.getContentType(request.bodyType);
 
-    if (contentType.isNotEmpty) {
+    if (!headers.containsKey('content-type') && contentType.isNotEmpty) {
       headers['content-type'] = contentType;
     }
 
