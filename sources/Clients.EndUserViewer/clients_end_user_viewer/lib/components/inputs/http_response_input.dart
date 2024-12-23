@@ -19,13 +19,14 @@ class HttpResponseInputState extends State<HttpResponseInput> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: controller,
+              readOnly: true,
               scrollController: _scrollController,
               keyboardType: TextInputType.multiline,
               minLines: 10,
               maxLines: 10,
               decoration: InputDecoration(
                 labelText: 'Response',
-                hintText: 'Enter response or past text',
+                hintText: 'No response found',
                 border: OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
