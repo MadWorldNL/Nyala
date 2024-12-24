@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyala/functions/https/http_form_storage.dart';
 
 class HttpResponseInput extends StatefulWidget {
   const HttpResponseInput({super.key});
@@ -8,9 +9,25 @@ class HttpResponseInput extends StatefulWidget {
 }
 
 class HttpResponseInputState extends State<HttpResponseInput> {
+  final HttpFormStorage _httpFormStorage = HttpFormStorage();
+
   final TextEditingController controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   String? response;
+
+  HttpResponseInputState() {
+    _httpFormStorage.getBody().then((value) {
+      setState(() {
+        response = value;
+      });
+    });
+  }
+
+  void updateResponse(String value) {
+    setState(() {
+      response = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +47,7 @@ class HttpResponseInputState extends State<HttpResponseInput> {
                 border: OutlineInputBorder(),
                 alignLabelWithHint: true,
               ),
+              onChanged: (value) => updateResponse(value),
             )));
   }
 }

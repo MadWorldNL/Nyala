@@ -9,7 +9,7 @@ import 'package:nyala/components/layout/main_menu.dart';
 import 'package:nyala/components/states/http_form_states.dart';
 
 class HttpEndpointsTester extends StatelessWidget {
-  final HttpFormStates states = HttpFormStates();
+  final HttpFormStates _httpFormStates = HttpFormStates();
 
   HttpEndpointsTester({super.key});
 
@@ -29,9 +29,9 @@ class HttpEndpointsTester extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(children: [
-                        HttpMethodesDropdown(key: states.httpMethodesKey),
-                        UrlInput(key: states.urlKey),
-                        SendRequestButton(httpFormStates: states)
+                        HttpMethodesDropdown(key: _httpFormStates.httpMethodesKey),
+                        UrlInput(key: _httpFormStates.urlKey),
+                        SendRequestButton(states: _httpFormStates),
                       ]),
                       SizedBox(height: 20), // Add some spacing
                       TabBar(
@@ -50,15 +50,15 @@ class HttpEndpointsTester extends StatelessWidget {
                           children: [
                             Text('Params'),
                             Text("Authorizantion"),
-                            HttpHeadersInput(key: states.httpHeadersKey),
-                            HttpBodyInput(key: states.httpBodyKey),
+                            HttpHeadersInput(),
+                            HttpBodyInput(),
                             Text('Settings'),
                           ],
                         ),
                       ),
                       Row(
                         children: [
-                          HttpResponseInput(key: states.httpResponseKey),
+                          HttpResponseInput(key: _httpFormStates.httpResponseKey),
                         ],
                       )
                     ]),

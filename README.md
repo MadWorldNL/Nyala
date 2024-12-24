@@ -12,6 +12,8 @@
 Download the following software
 * Visual Studio Code
 * Docker 
+* Ruby / Gem
+* Cocoapods
 
 ### Installation
 Installation guide for your development environment
@@ -37,4 +39,5 @@ I would like to thank the following sources and individuals for their templates,
 Your work has been incredibly helpful, and I greatly appreciate your contributions and generosity in sharing these resources.
 
 ## Reference
-[Dummy Json](https://dummyjson.com/docs/posts)
+[Dummy Json](https://dummyjson.com/docs/posts)\
+[Update Ruby](https://dev.to/luizgadao/easy-way-to-change-ruby-version-in-mac-m1-m2-and-m3-16hl)

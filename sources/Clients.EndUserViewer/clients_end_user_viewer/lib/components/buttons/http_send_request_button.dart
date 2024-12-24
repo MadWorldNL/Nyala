@@ -3,11 +3,10 @@ import 'package:nyala/components/states/http_form_states.dart';
 import 'package:nyala/functions/https/http_request_sender.dart';
 
 class SendRequestButton extends StatelessWidget {
+  final HttpFormStates states;
   final HttpRequestSender httpRequestSender = HttpRequestSender();
 
-  final HttpFormStates httpFormStates;
-
-  SendRequestButton({super.key, required this.httpFormStates});
+  SendRequestButton({super.key, required this.states});
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +30,9 @@ class SendRequestButton extends StatelessWidget {
   }
 
   Future<void> sendRequest() async {
-    var request = httpFormStates.createRequest();
+    var request = await states.createRequest();
     var response = await httpRequestSender.sendRequest(request);
-
-    httpFormStates.httpResponseKey.currentState!.controller.text = response;
+    
+    states.httpResponseKey.currentState!.controller.text = response;
   }
 }
