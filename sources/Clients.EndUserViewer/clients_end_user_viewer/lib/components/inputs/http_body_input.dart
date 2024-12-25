@@ -12,16 +12,16 @@ class HttpBodyInputState extends State<HttpBodyInput> {
   final HttpFormStorage _httpFormStorage = HttpFormStorage();
   final TextEditingController controller = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-  String? response;
+  String? body;
 
   HttpBodyInputState() {
     init();
   }
 
   void init() async {
-    var body = await _httpFormStorage.getBody();
-    response = body;
-    controller.text = body;
+    var savedBody = await _httpFormStorage.getBody();
+    body = savedBody;
+    controller.text = savedBody;
   }
 
   @override
@@ -36,8 +36,7 @@ class HttpBodyInputState extends State<HttpBodyInput> {
               minLines: 1,
               maxLines: 10,
               onChanged: (value) => {
-                response = value,
-                controller.text = value,
+                body = value,
                 _httpFormStorage.saveBody(value),
               },
               decoration: InputDecoration(
