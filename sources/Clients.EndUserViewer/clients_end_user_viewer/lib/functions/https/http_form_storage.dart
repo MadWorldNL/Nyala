@@ -6,6 +6,12 @@ class HttpFormStorage {
   final String _bodyKey = 'body';
   final String _headersKey = 'headers';
 
+  void reset() async {
+    final storage = await SharedPreferences.getInstance();
+    storage.remove(_bodyKey);
+    storage.remove(_headersKey);
+  }
+
   Future<String> getBody() async {
     final storage = await SharedPreferences.getInstance();
     return storage.getString(_bodyKey) ?? '';

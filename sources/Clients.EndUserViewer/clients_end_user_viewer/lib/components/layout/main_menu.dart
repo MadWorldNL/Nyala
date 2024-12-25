@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nyala/pages/developer.dart';
 import 'package:nyala/pages/grpc_endpoints_tester.dart';
 import 'package:nyala/pages/home.dart';
 import 'package:nyala/pages/http_endpoints_tester.dart';
@@ -21,31 +22,34 @@ class MainMenu extends StatelessWidget implements PreferredSizeWidget {
           itemBuilder: (context) => [
             PopupMenuItem<int>(value: 0, child: Text('Home')),
             PopupMenuItem<int>(value: 1, child: Text('Http')),
-            PopupMenuItem<int>(value: 1, child: Text('Grpc')),
+            PopupMenuItem<int>(value: 2, child: Text('Grpc')),
+            PopupMenuItem<int>(value: 3, child: Text('Developer')),
           ],
         ),
         title: Text(contextName));
   }
 
-  static void handleClick(BuildContext context, int item) {
+  void handleClick(BuildContext context, int item) {
     switch (item) {
       case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        navigate(context, const HomePage());
         break;
       case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HttpEndpointsTester()),
-        );
+        navigate(context, HttpEndpointsTester());
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const GrpcEndpointsTester()),
-        );
+        navigate(context, const GrpcEndpointsTester());
+        break;
+      case 3:
+        navigate(context, DeveloperPage());
+        break;
     }
+  }
+
+  void navigate(BuildContext context, Widget page) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
   }
 }

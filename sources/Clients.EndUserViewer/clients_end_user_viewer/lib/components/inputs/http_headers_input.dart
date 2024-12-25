@@ -13,7 +13,9 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
   static const String valueName = 'Value';
 
   final HttpFormStorage _httpFormStorage = HttpFormStorage();
-  final List<Map<String, String>> headers = [{}];
+  final List<Map<String, String>> headers = [];
+  final List<TextEditingController> keyControllers = [];
+  final List<TextEditingController> valueControllers = [];
 
   @override
   void initState() {
@@ -25,13 +27,22 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
     var savedHeaders = await _httpFormStorage.getHeaders();
     setState(() {
       headers.clear();
+      keyControllers.clear();
+      valueControllers.clear();
+
       headers.addAll(savedHeaders);
+      for (var header in savedHeaders) {
+        keyControllers.add(TextEditingController(text: header[keyName] ?? ''));
+        valueControllers.add(TextEditingController(text: header[valueName] ?? ''));
+      }
     });
   }
 
   void _addRow() async {
     setState(() {
       headers.add({});
+      keyControllers.add(TextEditingController());
+      valueControllers.add(TextEditingController());
     });
 
     _httpFormStorage.saveHeaders(headers);
@@ -59,8 +70,7 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        controller: TextEditingController(
-                            text: headers[index][keyName] ?? ''),
+                        controller: keyControllers[index],
                         decoration: const InputDecoration(
                           labelText: keyName,
                           border: OutlineInputBorder(),
@@ -74,14 +84,13 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextField(
-                        controller: TextEditingController(
-                            text: headers[index][valueName] ?? ''),
+                        controller: valueControllers[index],
                         decoration: const InputDecoration(
                           labelText: valueName,
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) =>
-                            _updateCell(index, valueName, value),
+                          _updateCell(index, valueName, value),
                       ),
                     ),
                   ),
