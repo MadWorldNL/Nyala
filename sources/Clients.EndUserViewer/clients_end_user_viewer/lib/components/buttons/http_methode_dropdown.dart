@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nyala/domain/https/http_methodes.dart';
+import 'package:nyala/functions/https/http_form_storage.dart';
 
 class HttpMethodesDropdown extends StatefulWidget {
   const HttpMethodesDropdown({super.key});
@@ -9,7 +10,21 @@ class HttpMethodesDropdown extends StatefulWidget {
 }
 
 class HttpMethodesDropdownState extends State<HttpMethodesDropdown> {
-  HttpMethodes? selectedType = HttpMethodes.get; // Holds the selected value
+  final HttpFormStorage _httpFormStorage = HttpFormStorage();
+  HttpMethodes? selectedMethode = HttpMethodes.get; 
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedMethod();
+  }
+
+  Future<void> _loadSavedMethod() async {
+    var savedMethode = await _httpFormStorage.getMethod();
+    setState(() {
+      selectedMethode = savedMethode;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +33,7 @@ class HttpMethodesDropdownState extends State<HttpMethodesDropdown> {
         child: DropdownButton<HttpMethodes>(
           hint: Text("Select an option"),
           alignment: Alignment.center,
-          value: selectedType,
+          value: selectedMethode,
           items: HttpMethodes.values
               .take(HttpMethodes.values.length)
               .map((httpType) {
@@ -29,7 +44,8 @@ class HttpMethodesDropdownState extends State<HttpMethodesDropdown> {
           }).toList(),
           onChanged: (value) {
             setState(() {
-              selectedType = value; // Update the selected value
+              selectedMethode = value;
+              _httpFormStorage.saveMethod(value!);
             });
           },
         ));

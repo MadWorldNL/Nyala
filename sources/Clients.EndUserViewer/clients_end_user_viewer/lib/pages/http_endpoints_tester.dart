@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nyala/components/buttons/http_dropdown.dart';
+import 'package:nyala/components/buttons/http_methode_dropdown.dart';
 import 'package:nyala/components/buttons/http_send_request_button.dart';
 import 'package:nyala/components/inputs/http_body_input.dart';
 import 'package:nyala/components/inputs/http_headers_input.dart';
@@ -29,8 +29,8 @@ class HttpEndpointsTester extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(children: [
-                        HttpMethodesDropdown(key: _httpFormStates.httpMethodesKey),
-                        UrlInput(key: _httpFormStates.urlKey),
+                        HttpMethodesDropdown(),
+                        UrlInput(),
                         SendRequestButton(states: _httpFormStates),
                       ]),
                       SizedBox(height: 20), // Add some spacing

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:nyala/domain/https/http_methodes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpFormStorage {
@@ -31,6 +32,11 @@ class HttpFormStorage {
     return [];
   }
 
+  Future<HttpMethodes> getMethod() async {
+    final storage = await SharedPreferences.getInstance();
+    return HttpMethodes.values[storage.getInt('method') ?? 0];
+  }
+
     Future<String> getUrl() async {
     final storage = await SharedPreferences.getInstance();
     return storage.getString(_urlKey) ?? '';
@@ -44,6 +50,11 @@ class HttpFormStorage {
   void saveHeaders(List<Map<String, String>> headers) async {
     final storage = await SharedPreferences.getInstance();
     storage.setString(_headersKey, jsonEncode(headers));
+  }
+
+  void saveMethod(HttpMethodes method) async {
+    final storage = await SharedPreferences.getInstance();
+    storage.setInt('method', method.index);
   }
 
   void saveUrl(String url) async {
