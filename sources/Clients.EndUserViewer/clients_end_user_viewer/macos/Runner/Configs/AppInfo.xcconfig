@@ -8,7 +8,7 @@
 PRODUCT_NAME = clients_end_user_viewer
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.clientsEndUserViewer
+PRODUCT_BUNDLE_IDENTIFIER = nl.mad-world.nyala
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.

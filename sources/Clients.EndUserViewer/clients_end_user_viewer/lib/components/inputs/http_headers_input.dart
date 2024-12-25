@@ -9,19 +9,24 @@ class HttpHeadersInput extends StatefulWidget {
 }
 
 class HttpHeadersInputState extends State<HttpHeadersInput> {
+  static const String keyName = 'Key';
+  static const String valueName = 'Value';
+
   final HttpFormStorage _httpFormStorage = HttpFormStorage();
   final List<Map<String, String>> headers = [{}];
 
-  HttpHeadersInputState() {
-    init();
+  @override
+  void initState() {
+    super.initState();
+    _loaderHeaders();
   }
 
-  void init() async {
+  void _loaderHeaders() async {
     var savedHeaders = await _httpFormStorage.getHeaders();
-        setState(() {
-    headers.clear();
-    headers.addAll(savedHeaders);
-        });
+    setState(() {
+      headers.clear();
+      headers.addAll(savedHeaders);
+    });
   }
 
   void _addRow() async {
@@ -43,52 +48,56 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
   @override
   Widget build(BuildContext context) {
     return Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: headers.length,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Key',
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) =>
-                              _updateCell(index, 'Key', value),
+      children: [
+        Expanded(
+          child: ListView.builder(
+            itemCount: headers.length,
+            itemBuilder: (context, index) {
+              return Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: TextEditingController(
+                            text: headers[index][keyName] ?? ''),
+                        decoration: const InputDecoration(
+                          labelText: keyName,
+                          border: OutlineInputBorder(),
                         ),
+                        onChanged: (value) =>
+                            _updateCell(index, keyName, value),
                       ),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          decoration: const InputDecoration(
-                            labelText: 'Value',
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) =>
-                              _updateCell(index, 'Value', value),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: TextEditingController(
+                            text: headers[index][valueName] ?? ''),
+                        decoration: const InputDecoration(
+                          labelText: valueName,
+                          border: OutlineInputBorder(),
                         ),
+                        onChanged: (value) =>
+                            _updateCell(index, valueName, value),
                       ),
                     ),
-                  ],
-                );
-              },
-            ),
+                  ),
+                ],
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              onPressed: _addRow,
-              child: const Text('Add Row'),
-            ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ElevatedButton(
+            onPressed: _addRow,
+            child: const Text('Add Row'),
           ),
-        ],
-      );
+        ),
+      ],
+    );
   }
 }
