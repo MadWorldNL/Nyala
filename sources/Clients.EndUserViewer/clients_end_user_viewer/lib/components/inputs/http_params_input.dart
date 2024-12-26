@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:nyala/functions/https/http_form_storage.dart';
 
-class HttpHeadersInput extends StatefulWidget {
-  const HttpHeadersInput({super.key});
+class HttpParamsInput extends StatefulWidget {
+  const HttpParamsInput({super.key});
 
   @override
-  HttpHeadersInputState createState() => HttpHeadersInputState();
+  HttpParamsInputState createState() => HttpParamsInputState();
 }
 
-class HttpHeadersInputState extends State<HttpHeadersInput> {
+class HttpParamsInputState extends State<HttpParamsInput> {
   static const String keyName = 'Key';
   static const String valueName = 'Value';
 
   final HttpFormStorage _httpFormStorage = HttpFormStorage();
-  final List<Map<String, String>> headers = [];
+  final List<Map<String, String>> params = [];
   final List<TextEditingController> keyControllers = [];
   final List<TextEditingController> valueControllers = [];
 
@@ -24,14 +24,14 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
   }
 
   void _loaderHeaders() async {
-    var savedHeaders = await _httpFormStorage.getHeaders();
+    var savedParams = await _httpFormStorage.getParams();
     setState(() {
-      headers.clear();
+      params.clear();
       keyControllers.clear();
       valueControllers.clear();
 
-      headers.addAll(savedHeaders);
-      for (var header in savedHeaders) {
+      params.addAll(savedParams);
+      for (var header in savedParams) {
         keyControllers.add(TextEditingController(text: header[keyName] ?? ''));
         valueControllers.add(TextEditingController(text: header[valueName] ?? ''));
       }
@@ -40,37 +40,37 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
 
   void _addRow() async {
     setState(() {
-      headers.add({keyName: '', valueName: ''});
+      params.add({keyName: '', valueName: ''});
       keyControllers.add(TextEditingController());
       valueControllers.add(TextEditingController());
     });
 
-    _httpFormStorage.saveHeaders(headers);
+    _httpFormStorage.saveParams(params);
   }
 
   void _removeRowWhenEmpty(int rowIndex) {
-    if (headers[rowIndex][keyName]!.isEmpty && headers[rowIndex][valueName]!.isEmpty) {
+    if (params[rowIndex][keyName]!.isEmpty && params[rowIndex][valueName]!.isEmpty) {
       _removeRow(rowIndex);
     }
   }
 
   void _removeRow(int rowIndex) async {
     setState(() {
-      headers.removeAt(rowIndex);
+      params.removeAt(rowIndex);
       keyControllers.removeAt(rowIndex);
       valueControllers.removeAt(rowIndex);
     });
 
-    _httpFormStorage.saveHeaders(headers);
+    _httpFormStorage.saveParams(params);
   }
 
   void _updateCell(int rowIndex, String columnKey, String value) {
     setState(() {
-      headers[rowIndex][columnKey] = value;
+      params[rowIndex][columnKey] = value;
     });
 
     _removeRowWhenEmpty(rowIndex);  
-    _httpFormStorage.saveHeaders(headers);
+    _httpFormStorage.saveParams(params);
   }
 
   @override
@@ -79,7 +79,7 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
       children: [
         Expanded(
           child: ListView.builder(
-            itemCount: headers.length,
+            itemCount: params.length,
             itemBuilder: (context, index) {
               return Row(
                 children: [

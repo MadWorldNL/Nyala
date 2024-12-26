@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HttpFormStorage {
   final String _bodyKey = 'body';
   final String _headersKey = 'headers';
+  final String _methodKey = 'method';
+  final String _paramsKey = 'params';
   final String _urlKey = 'url';
 
   void reset() async {
@@ -20,26 +22,34 @@ class HttpFormStorage {
   }
 
   Future<List<Map<String, String>>> getHeaders() async {
-    final storage = await SharedPreferences.getInstance();
-    var headers = storage.getString(_headersKey);
-
-    if (headers != null) {
-      return List<Map<String, String>>.from(
-        jsonDecode(headers).map((e) => Map<String, String>.from(e))
-      );
-    }
-
-    return [];
+    return _retrieveListMap(_headersKey);
   }
 
   Future<HttpMethodes> getMethod() async {
     final storage = await SharedPreferences.getInstance();
-    return HttpMethodes.values[storage.getInt('method') ?? 0];
+    return HttpMethodes.values[storage.getInt(_methodKey) ?? 0];
   }
 
-    Future<String> getUrl() async {
+  Future<List<Map<String, String>>> getParams() async {
+    return _retrieveListMap(_paramsKey);
+  }
+
+  Future<String> getUrl() async {
     final storage = await SharedPreferences.getInstance();
     return storage.getString(_urlKey) ?? '';
+  }
+
+  Future<List<Map<String, String>>> _retrieveListMap(String key) async {
+    final storage = await SharedPreferences.getInstance();
+    var listMap = storage.getString(key);
+
+    if (listMap != null) {
+      return List<Map<String, String>>.from(
+        jsonDecode(listMap).map((e) => Map<String, String>.from(e))
+      );
+    }
+
+    return [];
   }
 
   void saveBody(String body) async {
@@ -54,7 +64,12 @@ class HttpFormStorage {
 
   void saveMethod(HttpMethodes method) async {
     final storage = await SharedPreferences.getInstance();
-    storage.setInt('method', method.index);
+    storage.setInt(_methodKey, method.index);
+  }
+
+  void saveParams(List<Map<String, String>> params) async {
+    final storage = await SharedPreferences.getInstance();
+    storage.setString(_paramsKey, jsonEncode(params));
   }
 
   void saveUrl(String url) async {
