@@ -31,7 +31,9 @@ class HttpEndpointsTester extends StatelessWidget {
                     children: [
                       Row(children: [
                         HttpMethodesDropdown(),
-                        UrlInput(),
+                        UrlInput(
+                            key: _httpFormStates.httpUrlKey,
+                            httpParamsKey: _httpFormStates.HttpParamsKey),
                         SendRequestButton(states: _httpFormStates),
                       ]),
                       SizedBox(height: 20), // Add some spacing
@@ -49,7 +51,9 @@ class HttpEndpointsTester extends StatelessWidget {
                       Expanded(
                         child: TabBarView(
                           children: [
-                            HttpParamsInput(),
+                            HttpParamsInput(
+                                key: _httpFormStates.HttpParamsKey,
+                                httpUrlKey: _httpFormStates.httpUrlKey),
                             Text("Authorizantion"),
                             HttpHeadersInput(),
                             HttpBodyInput(),
@@ -59,7 +63,8 @@ class HttpEndpointsTester extends StatelessWidget {
                       ),
                       Row(
                         children: [
-                          HttpResponseInput(key: _httpFormStates.httpResponseKey),
+                          HttpResponseInput(
+                              key: _httpFormStates.httpResponseKey),
                         ],
                       )
                     ]),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nyala/components/inputs/url_input.dart';
 import 'package:nyala/functions/https/http_form_storage.dart';
+import 'package:nyala/functions/mappers/flatter.dart';
 
 class HttpParamsInput extends StatefulWidget {
-  const HttpParamsInput({super.key});
+  final GlobalKey<UrlInputState> httpUrlKey;
+  const HttpParamsInput({super.key, required this.httpUrlKey});
 
   @override
   HttpParamsInputState createState() => HttpParamsInputState();
@@ -12,6 +15,7 @@ class HttpParamsInputState extends State<HttpParamsInput> {
   static const String keyName = 'Key';
   static const String valueName = 'Value';
 
+  late final GlobalKey<UrlInputState> httpUrlKey;
   final HttpFormStorage _httpFormStorage = HttpFormStorage();
   final List<Map<String, String>> params = [];
   final List<TextEditingController> keyControllers = [];
@@ -20,20 +24,32 @@ class HttpParamsInputState extends State<HttpParamsInput> {
   @override
   void initState() {
     super.initState();
-    _loaderHeaders();
+    httpUrlKey = widget.httpUrlKey;
+
+    _loaderParamsFromStorage();
   }
 
-  void _loaderHeaders() async {
-    var savedParams = await _httpFormStorage.getParams();
+  void updateParams(Map<String, String> params) {
+    var newParams = Flatter.unflatten(params);
+    _loaderParams(newParams);
+  }
+
+  void _loaderParamsFromStorage() async {
+    var newParams = await _httpFormStorage.getParams();
+    _loaderParams(newParams);
+  }
+
+  void _loaderParams(List<Map<String, String>> newParams) async {
     setState(() {
       params.clear();
       keyControllers.clear();
       valueControllers.clear();
 
-      params.addAll(savedParams);
-      for (var header in savedParams) {
+      params.addAll(newParams);
+      for (var header in newParams) {
         keyControllers.add(TextEditingController(text: header[keyName] ?? ''));
-        valueControllers.add(TextEditingController(text: header[valueName] ?? ''));
+        valueControllers
+            .add(TextEditingController(text: header[valueName] ?? ''));
       }
     });
   }
@@ -49,7 +65,8 @@ class HttpParamsInputState extends State<HttpParamsInput> {
   }
 
   void _removeRowWhenEmpty(int rowIndex) {
-    if (params[rowIndex][keyName]!.isEmpty && params[rowIndex][valueName]!.isEmpty) {
+    if (params[rowIndex][keyName]!.isEmpty &&
+        params[rowIndex][valueName]!.isEmpty) {
       _removeRow(rowIndex);
     }
   }
@@ -69,8 +86,10 @@ class HttpParamsInputState extends State<HttpParamsInput> {
       params[rowIndex][columnKey] = value;
     });
 
-    _removeRowWhenEmpty(rowIndex);  
+    _removeRowWhenEmpty(rowIndex);
     _httpFormStorage.saveParams(params);
+
+    httpUrlKey.currentState!.updateUrl(Flatter.flatten(params));
   }
 
   @override
@@ -107,7 +126,7 @@ class HttpParamsInputState extends State<HttpParamsInput> {
                           border: OutlineInputBorder(),
                         ),
                         onChanged: (value) =>
-                          _updateCell(index, valueName, value),
+                            _updateCell(index, valueName, value),
                       ),
                     ),
                   ),
