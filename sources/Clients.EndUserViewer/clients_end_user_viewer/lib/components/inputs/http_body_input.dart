@@ -45,7 +45,7 @@ class HttpBodyInputState extends State<HttpBodyInput> {
     _httpFormStorage.saveBody(value);
   }
 
-  DropdownMenuItem<HttpBodyTypes> BuildDropdownMenuItem(HttpBodyTypes type) {
+  DropdownMenuItem<HttpBodyTypes> buildDropdownMenuItem(HttpBodyTypes type) {
     return DropdownMenuItem<HttpBodyTypes>(
       value: type,
       child: Text(type.name),
@@ -63,12 +63,12 @@ class HttpBodyInputState extends State<HttpBodyInput> {
                 alignment: Alignment.center,
                 value: selectedType,
                 items: [
-                  BuildDropdownMenuItem(HttpBodyTypes.none),
-                  BuildDropdownMenuItem(HttpBodyTypes.text),
-                  BuildDropdownMenuItem(HttpBodyTypes.javascript),
-                  BuildDropdownMenuItem(HttpBodyTypes.json),
-                  BuildDropdownMenuItem(HttpBodyTypes.html),
-                  BuildDropdownMenuItem(HttpBodyTypes.xml),
+                  buildDropdownMenuItem(HttpBodyTypes.none),
+                  buildDropdownMenuItem(HttpBodyTypes.text),
+                  buildDropdownMenuItem(HttpBodyTypes.javascript),
+                  buildDropdownMenuItem(HttpBodyTypes.json),
+                  buildDropdownMenuItem(HttpBodyTypes.html),
+                  buildDropdownMenuItem(HttpBodyTypes.xml),
                 ],
                 onChanged: (type) {
                   setSelectedType(type!);
