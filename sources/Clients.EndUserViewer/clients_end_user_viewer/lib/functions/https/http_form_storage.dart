@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:nyala/domain/https/http_body_types.dart';
 import 'package:nyala/domain/https/http_methodes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HttpFormStorage {
   final String _bodyKey = 'body';
+  final String _bodyTypeKey = 'bodyType';
   final String _headersKey = 'headers';
   final String _methodKey = 'method';
   final String _paramsKey = 'params';
@@ -19,6 +21,11 @@ class HttpFormStorage {
   Future<String> getBody() async {
     final storage = await SharedPreferences.getInstance();
     return storage.getString(_bodyKey) ?? '';
+  }
+
+  Future<HttpBodyTypes> getBodyType() async {
+    final storage = await SharedPreferences.getInstance();
+    return HttpBodyTypes.values[storage.getInt(_bodyTypeKey) ?? 0];
   }
 
   Future<List<Map<String, String>>> getHeaders() async {
@@ -55,6 +62,11 @@ class HttpFormStorage {
   void saveBody(String body) async {
     final storage = await SharedPreferences.getInstance();
     storage.setString(_bodyKey, body);
+  }
+
+  void saveBodyType(HttpBodyTypes type) async {
+    final storage = await SharedPreferences.getInstance();
+    storage.setInt(_bodyTypeKey, type.index);
   }
 
   void saveHeaders(List<Map<String, String>> headers) async {

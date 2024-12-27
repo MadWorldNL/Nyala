@@ -33,7 +33,7 @@ class HttpEndpointsTester extends StatelessWidget {
                         HttpMethodesDropdown(),
                         UrlInput(
                             key: _httpFormStates.httpUrlKey,
-                            httpParamsKey: _httpFormStates.HttpParamsKey),
+                            httpParamsKey: _httpFormStates.httpParamsKey),
                         SendRequestButton(states: _httpFormStates),
                       ]),
                       SizedBox(height: 20), // Add some spacing
@@ -52,7 +52,7 @@ class HttpEndpointsTester extends StatelessWidget {
                         child: TabBarView(
                           children: [
                             HttpParamsInput(
-                                key: _httpFormStates.HttpParamsKey,
+                                key: _httpFormStates.httpParamsKey,
                                 httpUrlKey: _httpFormStates.httpUrlKey),
                             Text("Authorizantion"),
                             HttpHeadersInput(),
