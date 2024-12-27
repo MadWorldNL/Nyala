@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nyala/components/inputs/http_params_input.dart';
 import 'package:nyala/functions/https/http_form_storage.dart';
+import 'package:nyala/functions/mappers/flatter.dart';
 
 class UrlInput extends StatefulWidget {
   final GlobalKey<HttpParamsInputState> httpParamsKey;
@@ -19,6 +20,8 @@ class UrlInputState extends State<UrlInput> {
   final TextEditingController controller = TextEditingController();
   String? url;
 
+  bool hasError = false;
+
   @override
   void initState() {
     super.initState();
@@ -30,30 +33,57 @@ class UrlInputState extends State<UrlInput> {
     var savedUrl = await _httpFormStorage.getUrl();
     url = savedUrl;
     controller.text = savedUrl;
+
+    try {
+      Uri.parse(savedUrl);
+    } catch (e) {
+      setError(true);
+    }
   }
 
-  void updateUrl(Map<String, String> params){
+  void updateUrl(Map<String, String> params) {
     var url = controller.text;
 
-    final uri = Uri.parse(url);
-    final updatedUri = uri.replace(
-      queryParameters: {
-        for (int i = 0; i < params.length; i++)
-          params.keys.elementAt(i): params.values.elementAt(i),
-      },
-    );
+    try {
+      final uri = Uri.parse(url);
+      final updatedUri = uri.replace(
+        queryParameters: {
+          for (int i = 0; i < params.length; i++)
+            params.keys.elementAt(i): params.values.elementAt(i),
+        },
+      );
 
-    controller.text = updatedUri.toString();
-    _httpFormStorage.saveUrl(updatedUri.toString());
+      controller.text = updatedUri.toString();
+      _httpFormStorage.saveUrl(updatedUri.toString());
+
+      setError(false);
+    } catch (e) {
+      setError(true);
+    }
   }
 
-  void _updateText(String value){
+  void _updateText(String value) {
     url = value;
     _httpFormStorage.saveUrl(value);
 
-    if (httpParamsKey.currentState != null){
-      httpParamsKey.currentState!.updateParams({});
+    try {
+      final uri = Uri.parse(value);
+
+      if (httpParamsKey.currentState != null) {
+        httpParamsKey.currentState!.updateParams(uri.queryParameters);
+      }
+      _httpFormStorage.saveParams(Flatter.unflatten(uri.queryParameters));
+
+      setError(false);
+    } catch (e) {
+      setError(true);
     }
+  }
+
+  void setError(bool error) {
+    setState(() {
+      hasError = error;
+    });
   }
 
   @override
@@ -63,12 +93,13 @@ class UrlInputState extends State<UrlInput> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               controller: controller,
-              onChanged: (value) =>
-                  _updateText(value),
+              onChanged: (value) => _updateText(value),
               decoration: InputDecoration(
                 labelText: 'Url',
                 hintText: 'Enter URL or past text',
                 border: OutlineInputBorder(),
+                filled: true,
+                fillColor: hasError ? Colors.red[100] : Colors.white,
               ),
             )));
   }
