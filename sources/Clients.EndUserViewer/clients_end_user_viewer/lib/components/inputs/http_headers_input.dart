@@ -120,7 +120,7 @@ class HttpHeadersInputState extends State<HttpHeadersInput> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: _addRow,
-            child: const Text('Add Row'),
+            child: const Text('Add new header'),
           ),
         ),
       ],

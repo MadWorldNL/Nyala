@@ -15,7 +15,11 @@ class HttpFormStorage {
   void reset() async {
     final storage = await SharedPreferences.getInstance();
     storage.remove(_bodyKey);
+    storage.remove(_bodyTypeKey);
     storage.remove(_headersKey);
+    storage.remove(_methodKey);
+    storage.remove(_paramsKey);
+    storage.remove(_urlKey);
   }
 
   Future<String> getBody() async {

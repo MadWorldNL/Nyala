@@ -139,7 +139,7 @@ class HttpParamsInputState extends State<HttpParamsInput> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: _addRow,
-            child: const Text('Add Row'),
+            child: const Text('Add new param'),
           ),
         ),
       ],
